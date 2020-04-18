@@ -19,18 +19,35 @@ class List extends Component {
 
   componentDidMount() {
     this.getTodos();
+    console.log("Mounted React App")
   }
 
   getTodos() {
-
+    axios.get('./api')
+      .then(results => 
+        this.setState({
+          todos : results.data
+        })
+      )
+      .catch(err => {console.log(err)})
   }
 
   postTodo(todo) {
-
+    axios.post('./api', {todo: todo})
+      .then(() => {
+        this.getTodos();
+      })
+      .catch(err => console.log(err))
   }
 
   deleteTodo(index) {
-
+    axios.delete(`./api/${index}`)
+      .then( result => {
+        this.getTodos();
+      })
+      .catch( err => {
+        console.log(err);
+      })
   }
 
   handleChange(event) {
